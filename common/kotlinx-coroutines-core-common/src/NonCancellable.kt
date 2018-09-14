@@ -65,6 +65,9 @@ public object NonCancellable : AbstractCoroutineContextElement(Job), Job {
     /** Always returns `false`. */
     override fun cancel(cause: Throwable?): Boolean = false
 
+    /** @suppress */
+    override fun cancelChild(parentJob: Job): Unit = error("Cannot be invoked, does not have a parent")
+
     /** Always returns [emptySequence]. */
     override val children: Sequence<Job>
         get() = emptySequence()

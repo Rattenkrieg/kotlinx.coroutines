@@ -5,6 +5,7 @@
 package kotlinx.coroutines.experimental
 
 import kotlinx.coroutines.experimental.CoroutineStart.*
+import kotlinx.coroutines.experimental.internal.*
 import kotlinx.coroutines.experimental.intrinsics.*
 import kotlin.coroutines.experimental.*
 
@@ -30,7 +31,11 @@ import kotlin.coroutines.experimental.*
  */
 @Suppress("EXPOSED_SUPER_CLASS")
 public abstract class AbstractCoroutine<in T>(
-    private val parentContext: CoroutineContext,
+    /**
+     * Context of the parent coroutine.
+     */
+    @JvmField
+    protected val parentContext: CoroutineContext,
     active: Boolean = true
 ) : JobSupport(active), Job, Continuation<T>, CoroutineScope {
     @Suppress("LeakingThis")

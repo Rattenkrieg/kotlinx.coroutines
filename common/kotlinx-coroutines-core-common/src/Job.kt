@@ -127,8 +127,7 @@ public interface Job : CoroutineContext.Element {
      * returned. The [JobCancellationException.cause] of the resulting [JobCancellationException] references
      * the original cancellation cause that was passed to [cancel] function.
      *
-     * This function throws [IllegalStateException] when invoked on a job that has not
-     * [completed][isCompleted] nor [cancelled][isCancelled] yet.
+     * This function throws [IllegalStateException] when invoked on a job that is still active.
      */
     public fun getCancellationException(): CancellationException
 
@@ -161,6 +160,15 @@ public interface Job : CoroutineContext.Element {
      * both the context of cancellation and text description of the reason.
      */
     public fun cancel(cause: Throwable? = null): Boolean
+
+    /**
+     * Cancels child job. This method is invoked by [parentJob] to cancel this child job.
+     * Child finds the cancellation cause using [getCancellationException] of the [parentJob].
+     * This method does nothing is the child is already being cancelled.
+     *
+     * @suppress **This is unstable API and it is subject to change.**
+     */
+    public fun cancelChild(parentJob: Job)
 
     // ------------ parent-child ------------
 
